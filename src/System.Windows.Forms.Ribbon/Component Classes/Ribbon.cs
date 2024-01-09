@@ -511,6 +511,13 @@ namespace System.Windows.Forms
             }
         }
 
+        /// <summary>
+        /// Gets or sets whether the ribbon can be minimized.
+        /// </summary>
+        [DefaultValue(false)]
+        [Category("Behavior")]
+        public bool MinimizeEnabled { get; set; }
+
         //[Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public new Size Size
         {
@@ -2375,7 +2382,7 @@ namespace System.Windows.Forms
                 OnOrbDoubleClicked(EventArgs.Empty);
             }
 
-            if (Tabs.Count != 1 || Tabs[0].Invisible == false)
+            if (MinimizeEnabled && (Tabs.Count != 1 || Tabs[0].Invisible == false))
             {
                 foreach (RibbonTab tab in Tabs)
                 {
