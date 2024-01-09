@@ -3741,7 +3741,6 @@ namespace System.Windows.Forms
                     e.Graphics.DrawString(f.Text, ft, b, captionBar, sf);
                 }
             }
-            //Console.WriteLine("capt " + DateTime.Now.Millisecond + e.ClipRectangle.ToString());
             //WinApi.FillForGlass(e.Graphics, captionBar);
             //WinApi.DrawTextOnGlass(e.Ribbon.Handle, f.Text, SystemFonts.CaptionFont, captionBar, 10);
         }

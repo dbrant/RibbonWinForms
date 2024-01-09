@@ -182,8 +182,6 @@ namespace System.Windows.Forms
         {
             // Note: Unlike all other Ribbon components, e.X and e.Y coordinates are based on the controls Top and Left, not the Ribbons.
 
-            //Console.WriteLine(e.Location.ToString());
-
             /* If control is on the Ribbon send the mouse move event to the Ribbon directly, converting from
              * control coordinates to Ribbon coordinates. */
             if (OwnerItem == null)

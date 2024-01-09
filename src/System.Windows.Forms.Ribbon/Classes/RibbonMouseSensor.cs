@@ -462,7 +462,6 @@ namespace System.Windows.Forms
         private void Control_MouseMove(object sender, MouseEventArgs e)
         {
             if (IsSuspended || Disposed) return;
-            //Console.WriteLine("MouseMove " + Control.Name);
             HitTest(e.Location);
 
             #region Selected ones

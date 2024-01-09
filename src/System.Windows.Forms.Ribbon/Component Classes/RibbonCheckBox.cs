@@ -326,7 +326,6 @@ namespace System.Windows.Forms
             Rectangle clickableBounds = TextClickable ? Bounds : CheckBoxBounds;
             if (clickableBounds.Contains(e.X, e.Y))
             {
-                Debug.WriteLine("Owner.Cursor = Cursors.Hand e.X=" + e.X + " e.Y=" + e.Y + " CheckBoxBounds (" + CheckBoxBounds + ")");
                 Canvas.Cursor = Cursors.Hand;
 
                 if (!Selected)
@@ -334,7 +333,6 @@ namespace System.Windows.Forms
             }
             else
             {
-                Debug.WriteLine("Owner.Cursor = Cursors.Default e.X=" + e.X + " e.Y=" + e.Y + " CheckBoxBounds (" + CheckBoxBounds + ")");
                 Canvas.Cursor = Cursors.Default;
 
                 if (Selected)
