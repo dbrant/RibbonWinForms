@@ -33,6 +33,8 @@ namespace System.Windows.Forms
         private Padding _dropDownMargin;
         private Point _lastMousePos;
         private RibbonArrowDirection _dropDownArrowDirection;
+        private Rectangle _padding;
+        private bool _bold;
 
         //Kevin - Tracks the selected item when it has dropdownitems assigned
         private RibbonItem _selectedItem;
@@ -403,6 +405,39 @@ namespace System.Windows.Forms
 
         }
 
+        /// <summary>
+        /// Gets or sets whether the button text should be bold.
+        /// </summary>
+        [DefaultValue(false)]
+        public bool Bold
+        {
+            get
+            {
+                return _bold;
+            }
+            set
+            {
+                _bold = value;
+                NotifyOwnerRegionsChanged();
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the padding of the button.
+        /// </summary>
+        public Rectangle Padding
+        {
+            get
+            {
+                return _padding;
+            }
+            set
+            {
+                _padding = value;
+                NotifyOwnerRegionsChanged();
+            }
+        }
+
         #endregion
 
         #region Methods
@@ -558,8 +593,11 @@ namespace System.Windows.Forms
                         newText = regex.Replace(Text.Replace("&", ""), "&" + AltKey, 1).Replace("&&", "&");
                     }
 
+                    Rectangle bounds = new Rectangle(TextBounds.X, TextBounds.Y + _padding.Top, TextBounds.Width, TextBounds.Height);
+
                     Owner.Renderer.OnRenderRibbonItemText(
-                        new RibbonTextEventArgs(Owner, e.Graphics, e.Clip, this, TextBounds, newText, sf));
+                        new RibbonTextEventArgs(Owner, e.Graphics, e.Clip, this, bounds, newText, Color.Empty, _bold ? FontStyle.Bold : FontStyle.Regular, sf));
+
                 }
             }
         }
@@ -571,13 +609,15 @@ namespace System.Windows.Forms
         private void OnPaintImage(RibbonElementPaintEventArgs e)
         {
             RibbonElementSizeMode theSize = GetNearestSize(e.Mode);
+            Rectangle imageBounds = OnGetImageBounds(theSize, Bounds);
+            Rectangle paddedBounds = new Rectangle(imageBounds.X, imageBounds.Y + _padding.Top, imageBounds.Width, imageBounds.Height);
 
             if (_showFlashImage)
             {
                 if ((theSize == RibbonElementSizeMode.Large && FlashImage != null) || FlashSmallImage != null)
                 {
                     Owner.Renderer.OnRenderRibbonItemImage(
-                        new RibbonItemBoundsEventArgs(Owner, e.Graphics, e.Clip, this, OnGetImageBounds(theSize, Bounds)));
+                        new RibbonItemBoundsEventArgs(Owner, e.Graphics, e.Clip, this, paddedBounds));
                 }
             }
             else
@@ -585,7 +625,7 @@ namespace System.Windows.Forms
                 if ((theSize == RibbonElementSizeMode.Large && Image != null) || SmallImage != null)
                 {
                     Owner.Renderer.OnRenderRibbonItemImage(
-                        new RibbonItemBoundsEventArgs(Owner, e.Graphics, e.Clip, this, OnGetImageBounds(theSize, Bounds)));
+                        new RibbonItemBoundsEventArgs(Owner, e.Graphics, e.Clip, this, paddedBounds));
                 }
             }
         }

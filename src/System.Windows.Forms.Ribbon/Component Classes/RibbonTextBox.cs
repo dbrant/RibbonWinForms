@@ -40,6 +40,8 @@ namespace System.Windows.Forms
 
         internal string _textBoxText;
 
+        private Rectangle _padding;
+
         internal bool _AllowTextEdit = true;
         /// <summary>
         /// Set to true when using a Combobox to inhibit mouse cursor from flickering as this class and Combobox 
@@ -71,6 +73,24 @@ namespace System.Windows.Forms
         }
         #endregion
         #region Props
+
+        /// <summary>
+        /// Gets or sets the padding of the component.
+        /// </summary>
+        [Category("Behavior")]
+        public Rectangle Padding
+        {
+            get
+            {
+                return _padding;
+            }
+            set
+            {
+                _padding = value;
+                NotifyOwnerRegionsChanged();
+            }
+        }
+
         /// <summary>
         /// Gets or sets if the textbox allows editing
         /// </summary>
@@ -482,7 +502,7 @@ namespace System.Windows.Forms
         /// <returns></returns>
         public virtual int MeasureHeight()
         {
-            return 16 + Owner.ItemMargin.Vertical;
+            return 16 + Owner.ItemMargin.Vertical + _padding.Top;
         }
 
         public override void OnPaint(object sender, RibbonElementPaintEventArgs e)
@@ -517,7 +537,7 @@ namespace System.Windows.Forms
 
             _textBoxBounds = Rectangle.FromLTRB(
                 bounds.Right - TextBoxWidth,
-                bounds.Top,
+                bounds.Top + _padding.Top,
                 bounds.Right,
                 bounds.Bottom);
 
@@ -525,7 +545,7 @@ namespace System.Windows.Forms
             {
                 _imageBounds = new Rectangle(
                     bounds.Left + Owner.ItemMargin.Left,
-                    bounds.Top + Owner.ItemMargin.Top, Image.Width, Image.Height);
+                    bounds.Top + Owner.ItemMargin.Top + _padding.Top, Image.Width, Image.Height);
             }
             else
             {
@@ -534,7 +554,7 @@ namespace System.Windows.Forms
 
             _labelBounds = Rectangle.FromLTRB(
                 _imageBounds.Right + (_imageBounds.Width > 0 ? spacing : 0),
-                bounds.Top,
+                bounds.Top + _padding.Top,
                 _textBoxBounds.Left - spacing,
                 bounds.Bottom - Owner.ItemMargin.Bottom);
 
