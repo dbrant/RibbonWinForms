@@ -985,20 +985,12 @@ namespace System.Windows.Forms
 
                     if (OrbVisible && RightToLeft == RightToLeft.No)
                     {
-                        return new Rectangle(1, TabsMargin.Top, contentSize.Width + OrbsPadding.Left + OrbsPadding.Right, OrbsPadding.Top + contentSize.Height + OrbsPadding.Bottom);
+                        return new Rectangle(0, TabsMargin.Top, contentSize.Width + OrbsPadding.Left + OrbsPadding.Right, OrbsPadding.Top + contentSize.Height + OrbsPadding.Bottom + 1);
                     }
-
-                    if (OrbVisible && RightToLeft == RightToLeft.Yes && CaptionBarVisible)
+                    else
                     {
-                        return new Rectangle(Width - contentSize.Width - OrbsPadding.Left - OrbsPadding.Right - 1, TabsMargin.Top, contentSize.Width + OrbsPadding.Left + OrbsPadding.Right, OrbsPadding.Top + contentSize.Height + OrbsPadding.Bottom);
+                        return new Rectangle(Width - contentSize.Width - OrbsPadding.Left - OrbsPadding.Right - 4, TabsMargin.Top, contentSize.Width + OrbsPadding.Left + OrbsPadding.Right, OrbsPadding.Top + contentSize.Height + OrbsPadding.Bottom);
                     }
-
-                    if (RightToLeft == RightToLeft.No)
-                    {
-                        return new Rectangle(4, 4, 0, 0);
-                    }
-
-                    return new Rectangle(Width - 4, 4, 0, 0);
                 }
                 else  //Michael Spradlin - 05/03/2013 Office 2013 Style Changes
                 {
@@ -2439,7 +2431,6 @@ namespace System.Windows.Forms
         protected override void OnMouseLeave(EventArgs e)
         {
             base.OnMouseLeave(e);
-            //Console.WriteLine("Ribbon Mouse Leave");
             SetSelectedTab(null);
             if (!Expanded)
                 foreach (RibbonTab tab in Tabs)
@@ -2455,8 +2446,6 @@ namespace System.Windows.Forms
         /// <param name="e">A <see cref="T:System.Windows.Forms.MouseEventArgs"></see> that contains the event data.</param>
         protected override void OnMouseMove(MouseEventArgs e)
         {
-            //Console.WriteLine("Ribbon: " + e.Location.ToString());
-
             // Kevin Carbis's new code, edited by adriancs, on behave of Carbis
             // The below fix some minor bug. The cursor is not displayed properly
             // when cursor is entering CheckBound of CheckBox and TextBox.
